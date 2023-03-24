@@ -1,4 +1,4 @@
-import model, { Application, Borrower } from "app/model";
+import model, { Application } from "app/model";
 
 const computeTotalPayment = (principal : number, term : number, rate : number) => {
     let monthlyPayment = computeMonthlyPayment(principal, term, rate);
@@ -47,42 +47,12 @@ const getAllLoansByBorrowerId =  (borrowerId: string) => {
 
 
 const applyForLoan = (amount: number, term: number, borrowerId: string, name: string) => {
-    const borrowerWithId = model.getBorrowerById(borrowerId);
-    if (!borrowerWithId) {
-
+    const hasError = hasErrors(borrowerId, name);
+    if (hasError) { 
         return {
             status: "Rejected",
-            reason: "Borrower information not found"
-        };
-    }
-
-    let firstName = '';
-    let lastName = '';
-    if (name) [firstName, lastName] = name.split(' ');
-
-    if (borrowerWithId.first_name != firstName || borrowerWithId.last_name != lastName) {
-
-        return {
-            status: "Rejected",
-            reason: "Borrower information do not match"
-        };
-    }
-
-    const borrowerWithName = model.getBorrowerByName(firstName, lastName);
-    if (borrowerWithName && borrowerWithName.borrower_id != borrowerId) {
-
-        return {
-            status: "Rejected",
-            reason: "Borrower information do not match"
-        };
-    }
-
-    if (model.isBorrowerInBlacklist(borrowerId)) {
-
-        return {
-            status: "Rejected",
-            reason: "Borrower is blacklisted"
-        };
+            reason: hasError
+        }
     }
 
     const dateNow = new Date()
@@ -112,21 +82,38 @@ const applyForLoan = (amount: number, term: number, borrowerId: string, name: st
         borrower_id: borrowerId,
     }
 
-    if (model.appendToList(application)) {
+    if (!model.appendToList(application)) {
         return {
-            status: "Approved",
-            loanAmount: amount,
-            loanTerm: `${term} months`,
-            borrowerId,
-            monthlyPayment,
-            totalPayment
+            status: "Rejected",
+            reason: "Loan application failed"
         }
     }
 
     return {
-        status: "Rejected",
-        reason: "Loan application failed"
+        status: "Approved",
+        loanAmount: amount,
+        loanTerm: `${term} months`,
+        borrowerId,
+        monthlyPayment,
+        totalPayment
     }
+};
+
+const hasErrors = (borrowerId: string, name: string) => {
+    let error = false;
+
+    if (model.isBorrowerInBlacklist(borrowerId)) return "Borrower is blacklisted"
+
+    const borrowerWithId = model.getBorrowerById(borrowerId);
+    if (!borrowerWithId) return "Borrower information not found"
+
+    const [firstName, lastName] = name.split(' ');
+    if (borrowerWithId.first_name != firstName || borrowerWithId.last_name != lastName) return "Borrower information do not match"
+
+    const borrowerWithName = model.getBorrowerByName(firstName, lastName);
+    if (borrowerWithName && borrowerWithName.borrower_id != borrowerId) return "Borrower information do not match"
+
+    return error;
 };
 
 export default { 
