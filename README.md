@@ -16,7 +16,7 @@ From a Request client (i.e. [Postman](https://www.postman.com/)), the following 
 |------------|---------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **GET**    | /api/loans/?firstName={first_name}&lastName={last_name} | first_name - borrower's first name<br/>last_name - borrorwer's last name                                                                                                                                                             |
 | **GET**    | /api/loans/:borrowerId                                  | borrowerId - borrower's personal ID<br/>(format: A####)                                                                                                                                                                              |
-| **POST**   | /api/loans/apply                                        | (all fields required)<br/>{  amount: number,  term: number,  borrowerId: string,  name: string } <br/>amount: amount to borrow<br/>term: payback period (in months)<br/>borrowerId: borrower's personal ID<br/>name: borrower's first and last names |
+| **POST**   | /api/loans/apply                                        | (all fields required)<br/>{<br/>&nbsp;&nbsp;&nbsp;amount: number,<br/>&nbsp;&nbsp;&nbsp;term: number,<br/>&nbsp;&nbsp;&nbsp;borrowerId: string,<br/>&nbsp;&nbsp;&nbsp;name: string<br/>   }<br/><br/>amount: amount to borrow<br/>term: payback period (in months)<br/>borrowerId: borrower's personal ID<br/>name: borrower's first and last names |
 ||||
 
 ### Frameworks, Tools, and Libraries Used
