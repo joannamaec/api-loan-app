@@ -11,12 +11,13 @@
 
 From a Request client (i.e. [Postman](https://www.postman.com/)), the following endpoints are available:
 
+
 | **Method** | **Route**                                               | **Request**                                                                                                                                                                                                                      |
 |------------|---------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **GET**    | /api/loans/?firstName={first_name}&lastName={last_name} | first_name - borrower's first name last_name - borrorwer's last name                                                                                                                                                             |
-| **GET**    | /api/loans/:borrowerId                                  | borrowerId - borrower's personal ID (format: A####)                                                                                                                                                                              |
-| **POST**   | /api/loans/apply                                        | (all fields required) {  amount: number,  term: number,  borrowerId: string,  name: string }  amount: amount to borrow term: payback period (in months) borrowerId: borrower's personal ID name: borrower's first and last names |
-
+| **GET**    | /api/loans/?firstName={first_name}&lastName={last_name} | first_name - borrower's first name<br/>last_name - borrorwer's last name                                                                                                                                                             |
+| **GET**    | /api/loans/:borrowerId                                  | borrowerId - borrower's personal ID<br/>(format: A####)                                                                                                                                                                              |
+| **POST**   | /api/loans/apply                                        | (all fields required)<br/>{  amount: number,  term: number,  borrowerId: string,  name: string } <br/>amount: amount to borrow<br/>term: payback period (in months)<br/>borrowerId: borrower's personal ID<br/>name: borrower's first and last names |
+||||
 
 ### Frameworks, Tools, and Libraries Used
 * Typescript, Node.js
