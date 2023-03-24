@@ -45,7 +45,6 @@ const getLoansByDateTime =  (date: string, time: string) => {
         const applicationDate = Date.parse(`${appDate} ${appTime}`);
         const baselineDate = Date.parse(`${yestDate} ${yestTime}`);
 
-        console.log(applicationDate, baselineDate);
         return applicationDate >= baselineDate
     }
 
